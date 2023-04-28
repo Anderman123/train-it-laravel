@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controller\API\PostController;
 use App\Http\Controller\API\UsuarioController;
+use App\Http\Controller\API\RegistroController;
 
 
 /*
@@ -21,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Rutas para el controlador 'RegistroController'
+Route::post('/registro', 'API\RegistroController@registro');
 
 // Rutas para el controlador 'UsuarioController'
 Route::get('/usuarios', 'API\UsuarioController@index');
