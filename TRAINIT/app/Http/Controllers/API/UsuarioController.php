@@ -94,4 +94,8 @@ class UsuarioController extends Controller
 
         return response()->json(['message' => 'Usuario eliminado con éxito']);
     }
+    public function update_workaround(Request $request, $id)
+    {
+        return $this->update($request, $id);
+    }
 }

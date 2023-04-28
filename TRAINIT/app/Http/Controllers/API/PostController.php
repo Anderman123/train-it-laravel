@@ -93,4 +93,8 @@ class PostController extends Controller
 
         return response()->json(['message' => 'Post eliminado con éxito']);
     }
+    public function update_workaround(Request $request, $id)
+    {
+        return $this->update($request, $id);
+    }
 }
