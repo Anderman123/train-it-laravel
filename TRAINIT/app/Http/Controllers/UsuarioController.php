@@ -4,34 +4,44 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
-    public function index()
+    public function register(Request $request)
     {
-        return Usuario::all();
+        $request->validate([
+            'nombre' => 'required',
+            'email' => 'required|email|unique:usuarios',
+            'password' => 'required|min:8',
+        ]);
+
+        $usuario = new Usuario;
+        $usuario->nombre = $request->nombre;
+        $usuario->email = $request->email;
+        $usuario->password = Hash::make($request->password);
+        $usuario->save();
+
+        return response()->json(['message' => 'Usuario registrado con éxito'], 201);
     }
 
-    public function store(Request $request)
+    public function login(Request $request)
     {
-        $usuario = Usuario::create($request->all());
-        return response()->json($usuario, 201);
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $usuario = Usuario::where('email', $request->email)->first();
+
+        if (!$usuario || !Hash::check($request->password, $usuario->password)) {
+            return response()->json(['message' => 'Credenciales incorrectas'], 401);
+        }
+
+        $token = $usuario->createToken('auth_token')->plainTextToken;
+
+        return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
     }
 
-    public function show(Usuario $usuario)
-    {
-        return $usuario;
-    }
-
-    public function update(Request $request, Usuario $usuario)
-    {
-        $usuario->update($request->all());
-        return response()->json($usuario, 200);
-    }
-
-    public function destroy(Usuario $usuario)
-    {
-        $usuario->delete();
-        return response()->json(null, 204);
-    }
+    // ... otros métodos del controlador
 }
