@@ -2,47 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return Post::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'descripcion' => 'required',
+            'fecha_publicacion' => 'required|date',
+            'id_categoria' => 'required|exists:categorias,id_categoria',
+        ]);
+
+        $post = Post::create($request->all());
+        return response()->json($post, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Post $post)
     {
-        //
+        return $post;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'descripcion' => 'sometimes|required',
+            'fecha_publicacion' => 'sometimes|required|date',
+            'id_categoria' => 'sometimes|required|exists:categorias,id_categoria',
+        ]);
+
+        $post->update($request->all());
+        return response()->json($post, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return response()->json(null, 204);
     }
 }

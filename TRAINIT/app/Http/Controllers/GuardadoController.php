@@ -2,47 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guardado;
 use Illuminate\Http\Request;
 
 class GuardadoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return Guardado::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id_usuario' => 'required|exists:usuarios,id_usuario',
+            'id_post' => 'required|exists:posts,id_post',
+        ]);
+
+        $guardado = Guardado::create($request->all());
+        return response()->json($guardado, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Guardado $guardado)
     {
-        //
+        return $guardado;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Guardado $guardado)
     {
-        //
+        $request->validate([
+            'id_usuario' => 'sometimes|required|exists:usuarios,id_usuario',
+            'id_post' => 'sometimes|required|exists:posts,id_post',
+        ]);
+
+        $guardado->update($request->all());
+        return response()->json($guardado, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Guardado $guardado)
     {
-        //
+        $guardado->delete();
+        return response()->json(null, 204);
     }
 }
