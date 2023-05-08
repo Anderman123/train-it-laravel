@@ -46,4 +46,7 @@ class PostController extends Controller
         $post->delete();
         return response()->json(null, 204);
     }
+    public function update_workaround(Request $request, $id){
+        return $this->update($request, $id);
+    }
 }

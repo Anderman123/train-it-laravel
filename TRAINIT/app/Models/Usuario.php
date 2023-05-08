@@ -5,7 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Usuario extends Authenticatable
+class Usuario extends Model
 {
-    use HasApiTokens;
+    use HasFactory;
+
+    protected $table = 'usuarios';
+
+    protected $primaryKey = 'id_usuario';
+
+    protected $fillable = [
+        'nombre_usuario',
+        'apellido',
+        'email',
+        'telefono',
+        'password',
+    ];
+
+    protected $hidden = [
+        'password',
+    ];
 }

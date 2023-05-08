@@ -48,4 +48,7 @@ class ComentarioController extends Controller
         $comentario->delete();
         return response()->json(null, 204);
     }
+    public function update_workaround(Request $request, $id){
+        return $this->update($request, $id);
+    }
 }

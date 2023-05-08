@@ -42,6 +42,9 @@ class UsuarioController extends Controller
 
         return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
     }
+    public function update_workaround(Request $request, $id){
+        return $this->update($request, $id);
+    }
 
     // ... otros métodos del controlador
 }
