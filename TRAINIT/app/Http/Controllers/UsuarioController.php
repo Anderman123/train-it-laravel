@@ -11,13 +11,14 @@ class UsuarioController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'nombre' => 'required',
+            'nombre_usuario' => 'required',
             'email' => 'required|email|unique:usuarios',
             'password' => 'required|min:8',
+
         ]);
 
         $usuario = new Usuario;
-        $usuario->nombre = $request->nombre;
+        $usuario->nombre_usuario = $request->nombre_usuario;
         $usuario->email = $request->email;
         $usuario->password = Hash::make($request->password);
         $usuario->save();

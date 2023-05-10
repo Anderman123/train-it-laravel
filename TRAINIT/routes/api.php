@@ -34,7 +34,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 // Rutas para CategoriaController
 Route::apiResource('categorias', CategoriaController::class);
-Route::post('categorias{categorias}', [CategoriaController::class, 'update_workaround']);
 
 // Rutas para ComentarioController
 Route::apiResource('comentarios', ComentarioController::class);

@@ -15,6 +15,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'archivo' => 'required|file|image|mimes:jpeg,png,gif,webp|max:2048', // Validación de la imagen
             'descripcion' => 'required',
             'fecha_publicacion' => 'required|date',
             'id_categoria' => 'required|exists:categorias,id_categoria',
@@ -32,6 +33,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $request->validate([
+            'archivo' => 'required|file|image|mimes:jpeg,png,gif,webp|max:2048', // Validación de la imagen
             'descripcion' => 'sometimes|required',
             'fecha_publicacion' => 'sometimes|required|date',
             'id_categoria' => 'sometimes|required|exists:categorias,id_categoria',

@@ -30,10 +30,10 @@ class CategoriaController extends Controller
     public function update(Request $request, Categoria $categoria)
     {
         $request->validate([
-            'nombre_categoria' => 'sometimes|required|unique:categorias',
+            'nombre_categoria' => 'required|unique:categorias',
         ]);
-
-        $categoria->update($request->all());
+        $categoria->nombre_categoria = $request->get('nombre_categoria');
+        $categoria->save();
         return response()->json($categoria, 200);
     }
 
@@ -41,9 +41,5 @@ class CategoriaController extends Controller
     {
         $categoria->delete();
         return response()->json(null, 204);
-    }
-    
-    public function update_workaround(Request $request, $id){
-        return $this->update($request, $id);
     }
 }

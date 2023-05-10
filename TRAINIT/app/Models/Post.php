@@ -14,6 +14,7 @@ class Post extends Model
     protected $primaryKey = 'id_post';
 
     protected $fillable = [
+        'archivo',
         'descripcion',
         'fecha_publicacion',
         'id_categoria',
@@ -27,4 +28,4 @@ class Post extends Model
     {
         return $this->belongsTo(Categoria::class, 'id_categoria');
     }
-}
+}   

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id('id_post');
+            $table->string('archivo')->nullable(); // Campo para almacenar la ruta del archivo
             $table->text('descripcion');
             $table->timestamp('fecha_publicacion');
             $table->unsignedBigInteger('id_categoria');
