@@ -15,13 +15,13 @@ class ComentarioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_usuario' => 'required|exists:usuarios,id_usuario',
-            'id_post' => 'required|exists:posts,id_post',
-            'contenido' => 'required',
-            'fecha_comentario' => 'required|date',
+            'usuario_id' => 'required|exists:usuarios,id',
+            'publicacion_id' => 'required|exists:publicaciones,id',
+            'contenido' => 'required|string',
         ]);
 
         $comentario = Comentario::create($request->all());
+
         return response()->json($comentario, 201);
     }
 
@@ -33,22 +33,23 @@ class ComentarioController extends Controller
     public function update(Request $request, Comentario $comentario)
     {
         $request->validate([
-            'id_usuario' => 'sometimes|required|exists:usuarios,id_usuario',
-            'id_post' => 'sometimes|required|exists:posts,id_post',
-            'contenido' => 'sometimes|required',
-            'fecha_comentario' => 'sometimes|required|date',
+            'contenido' => 'required|string',
         ]);
 
         $comentario->update($request->all());
-        return response()->json($comentario, 200);
+
+        return response()->json($comentario);
+    }
+
+    public function update_workaround(Request $request, Comentario $comentario)
+    {
+        return $this->update($request, $comentario);
     }
 
     public function destroy(Comentario $comentario)
     {
         $comentario->delete();
+
         return response()->json(null, 204);
-    }
-    public function update_workaround(Request $request, $id){
-        return $this->update($request, $id);
     }
 }

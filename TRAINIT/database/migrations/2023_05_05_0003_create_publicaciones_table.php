@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
-            $table->id('id_post');
-            $table->string('archivo')->nullable(); // Campo para almacenar la ruta del archivo
+        Schema::create('publicaciones', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('usuario_id')->constrained();
+            $table->foreignId('categoria_id')->constrained();
             $table->text('descripcion');
-            $table->timestamp('fecha_publicacion');
-            $table->unsignedBigInteger('id_categoria');
-            $table->foreign('id_categoria')->references('id_categoria')->on('categorias');
+            $table->string('imagen')->nullable();
+            $table->string('video')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('publicaciones');
     }
 };

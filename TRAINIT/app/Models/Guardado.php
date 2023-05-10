@@ -5,26 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comentario extends Model
+class Guardado extends Model
 {
     use HasFactory;
-    protected $table = 'comentarios';
-    protected $primaryKey = 'id_comentario';
 
     protected $fillable = [
-        'id_usuario',
-        'id_post',
-        'contenido',
-        'fecha_comentario',
+        'usuario_id',
+        'publicacion_id',
     ];
 
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'id_usuario');
+        return $this->belongsTo(Usuario::class);
     }
 
-    public function post()
+    public function publicacion()
     {
-        return $this->belongsTo(Post::class, 'id_post');
+        return $this->belongsTo(Publicacion::class);
     }
 }

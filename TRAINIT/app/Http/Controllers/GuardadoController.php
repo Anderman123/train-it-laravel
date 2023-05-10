@@ -15,11 +15,12 @@ class GuardadoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_usuario' => 'required|exists:usuarios,id_usuario',
-            'id_post' => 'required|exists:posts,id_post',
+            'usuario_id' => 'required|exists:usuarios,id',
+            'publicacion_id' => 'required|exists:publicaciones,id',
         ]);
 
         $guardado = Guardado::create($request->all());
+
         return response()->json($guardado, 201);
     }
 
@@ -31,20 +32,24 @@ class GuardadoController extends Controller
     public function update(Request $request, Guardado $guardado)
     {
         $request->validate([
-            'id_usuario' => 'sometimes|required|exists:usuarios,id_usuario',
-            'id_post' => 'sometimes|required|exists:posts,id_post',
+            'usuario_id' => 'required|exists:usuarios,id',
+            'publicacion_id' => 'required|exists:publicaciones,id',
         ]);
 
         $guardado->update($request->all());
-        return response()->json($guardado, 200);
+
+        return response()->json($guardado);
+    }
+
+    public function update_workaround(Request $request, Guardado $guardado)
+    {
+        return $this->update($request, $guardado);
     }
 
     public function destroy(Guardado $guardado)
     {
         $guardado->delete();
+
         return response()->json(null, 204);
-    }
-    public function update_workaround(Request $request, $id){
-        return $this->update($request, $id);
     }
 }

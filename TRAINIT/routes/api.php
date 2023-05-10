@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\GuardadoController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\PublicacionesController;
 use App\Http\Controllers\UsuarioController;
 
 
@@ -44,8 +44,8 @@ Route::apiResource('guardados', GuardadoController::class);
 Route::post('guardados{guardados}', [GuardadoController::class, 'update_workaround']);
 
 // Rutas para PostController
-Route::apiResource('posts', PostController::class);
-Route::post('post{post}', [PostController::class, 'update_workaround']);
+Route::apiResource('posts', PublicacionesController::class);
+Route::post('post{post}', [PublicacionesController::class, 'update_workaround']);
 
 // Rutas para UsuarioController
 Route::post('register', [UsuarioController::class, 'register']);

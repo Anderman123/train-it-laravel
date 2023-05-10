@@ -5,21 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Usuario extends Model
+class Publicacion extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'nombre',
-        'apellido',
-        'telefono',
-        'email',
-        'password',
+        'usuario_id',
+        'categoria_id',
+        'descripcion',
+        'imagen',
+        'video',
     ];
 
-    public function publicaciones()
+    public function usuario()
     {
-        return $this->hasMany(Publicacion::class);
+        return $this->belongsTo(Usuario::class);
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
     }
 
     public function comentarios()

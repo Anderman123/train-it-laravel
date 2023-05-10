@@ -12,11 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('guardados', function (Blueprint $table) {
-            $table->id('id_guardado');
-            $table->unsignedBigInteger('id_usuario');
-            $table->unsignedBigInteger('id_post');
-            $table->foreign('id_usuario')->references('id_usuario')->on('usuarios');
-            $table->foreign('id_post')->references('id_post')->on('posts');
+            $table->id();
+            $table->foreignId('usuario_id')->constrained();
+            $table->foreignId('publicacion_id')->constrained('publicaciones'); // Cambiar 'publicacions' por 'publicaciones'
             $table->timestamps();
         });
     }

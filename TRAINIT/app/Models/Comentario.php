@@ -9,28 +9,19 @@ class Comentario extends Model
 {
     use HasFactory;
 
-    protected $table = 'comentarios';
-
-    protected $primaryKey = 'id_comentario';
-
     protected $fillable = [
-        'id_usuario',
-        'id_post',
+        'usuario_id',
+        'publicacion_id',
         'contenido',
-        'fecha_comentario',
-    ];
-
-    protected $dates = [
-        'fecha_comentario',
     ];
 
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'id_usuario');
+        return $this->belongsTo(Usuario::class);
     }
 
-    public function post()
+    public function publicacion()
     {
-        return $this->belongsTo(Post::class, 'id_post');
+        return $this->belongsTo(Publicacion::class);
     }
 }

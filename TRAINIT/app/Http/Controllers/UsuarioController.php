@@ -8,44 +8,77 @@ use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
-    public function register(Request $request)
+    public function index()
+    {
+        return Usuario::all();
+    }
+
+    public function store(Request $request)
     {
         $request->validate([
-            'nombre_usuario' => 'required',
+            'nombre' => 'required|string',
+            'apellido' => 'required|string',
+            'telefono' => 'required|string',
             'email' => 'required|email|unique:usuarios',
-            'password' => 'required|min:8',
-
+            'password' => 'required|string|min:8',
         ]);
 
-        $usuario = new Usuario;
-        $usuario->nombre_usuario = $request->nombre_usuario;
-        $usuario->email = $request->email;
-        $usuario->password = Hash::make($request->password);
-        $usuario->save();
+        $usuario = Usuario::create([
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'telefono' => $request->telefono,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-        return response()->json(['message' => 'Usuario registrado con éxito'], 201);
+        return response()->json($usuario, 201);
+    }
+
+    public function show(Usuario $usuario)
+    {
+        return $usuario;
+    }
+
+    public function update(Request $request, Usuario $usuario)
+    {
+        $request->validate([
+            'nombre' => 'required|string',
+            'apellido' => 'required|string',
+            'telefono' => 'required|string',
+            'email' => 'required|email|unique:usuarios,email,' . $usuario->id,
+            'password' => 'required|string|min:8',
+        ]);
+
+        $usuario->update([
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'telefono' => $request->telefono,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return response()->json($usuario);
+    }
+
+    public function update_workaround(Request $request, Usuario $usuario)
+    {
+        return $this->update($request, $usuario);
+    }
+
+    public function destroy(Usuario $usuario)
+    {
+        $usuario->delete();
+
+        return response()->json(null, 204);
+    }
+
+    public function register(Request $request)
+    {
+        // Implementar la lógica de registro aquí.
     }
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        $usuario = Usuario::where('email', $request->email)->first();
-
-        if (!$usuario || !Hash::check($request->password, $usuario->password)) {
-            return response()->json(['message' => 'Credenciales incorrectas'], 401);
-        }
-
-        $token = $usuario->createToken('auth_token')->plainTextToken;
-
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+        // Implementar la lógica de inicio de sesión aquí.
     }
-    public function update_workaround(Request $request, $id){
-        return $this->update($request, $id);
-    }
-
-    // ... otros métodos del controlador
 }
