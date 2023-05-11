@@ -9,7 +9,7 @@ class PublicacionesController extends Controller
 {
     public function index()
     {
-        return Publicacion::all();
+        return Publicaciones::all();
     }
 
     public function store(Request $request)
@@ -18,43 +18,44 @@ class PublicacionesController extends Controller
             'user_id' => 'required|exists:users,id',
             'categoria_id' => 'required|exists:categorias,id',
             'descripcion' => 'required|string',
-            'imagen' => 'nullable|string',
-            'video' => 'nullable|string',
+            'imagen' => 'image|max:2048', // Valida que el archivo cargado sea una imagen y su tamaño no supere los 2MB
+            'video' => 'mimes:mp4,mov,ogg|max:20000', // Valida que el archivo cargado sea un vídeo y su tamaño no supere los 20MB
         ]);
 
-        $publicacion = Publicacion::create($request->all());
+        $publicaciones = Publicaciones::create($request->all());
 
-        return response()->json($publicacion, 201);
+        return response()->json($publicaciones, 201);
+        
     }
 
-    public function show(Publicacion $publicacion)
+    public function show(Publicaciones $publicaciones)
     {
-        return $publicacion;
+        return $publicaciones;
     }
 
-    public function update(Request $request, Publicacion $publicacion)
+    public function update(Request $request, Publicaciones $publicaciones)
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'categoria_id' => 'required|exists:categorias,id',
             'descripcion' => 'required|string',
-            'imagen' => 'nullable|string',
-            'video' => 'nullable|string',
+            'imagen' => 'nullable|image',
+            'video' => 'nullable|mimes:mp4,avi,wmv',
         ]);
 
-        $publicacion->update($request->all());
+        $publicaciones->update($request->all());
 
-        return response()->json($publicacion);
+        return response()->json($publicaciones);
     }
 
-    public function update_workaround(Request $request, Publicacion $publicacion)
+    public function update_workaround(Request $request, Publicaciones $publicaciones)
     {
-        return $this->update($request, $publicacion);
+        return $this->update($request, $publicaciones);
     }
 
-    public function destroy(Publicacion $publicacion)
+    public function destroy(Publicaciones $publicaciones)
     {
-        $publicacion->delete();
+        $publicaciones->delete();
 
         return response()->json(null, 204);
     }
