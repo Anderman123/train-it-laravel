@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function insertUsuarios()
     {
-        DB::table('usuarios')->insert([
+        DB::table('userss')->insert([
             ['nombre' => 'Juan', 'email' => 'juan@example.com', 'password' => bcrypt('contraseña')],
             ['nombre' => 'Maria', 'email' => 'maria@example.com', 'password' => bcrypt('contraseña')],
             ['nombre' => 'Pedro', 'email' => 'pedro@example.com', 'password' => bcrypt('contraseña')],

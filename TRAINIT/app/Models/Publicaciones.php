@@ -10,16 +10,16 @@ class Publicacion extends Model
     use HasFactory;
 
     protected $fillable = [
-        'usuario_id',
+        'user_id',
         'categoria_id',
         'descripcion',
         'imagen',
         'video',
     ];
 
-    public function usuario()
+    public function user()
     {
-        return $this->belongsTo(Usuario::class);
+        return $this->belongsTo(User::class);
     }
 
     public function categoria()

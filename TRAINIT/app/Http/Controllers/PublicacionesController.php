@@ -15,7 +15,7 @@ class PublicacionesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'usuario_id' => 'required|exists:usuarios,id',
+            'user_id' => 'required|exists:users,id',
             'categoria_id' => 'required|exists:categorias,id',
             'descripcion' => 'required|string',
             'imagen' => 'nullable|string',
@@ -35,7 +35,7 @@ class PublicacionesController extends Controller
     public function update(Request $request, Publicacion $publicacion)
     {
         $request->validate([
-            'usuario_id' => 'required|exists:usuarios,id',
+            'user_id' => 'required|exists:users,id',
             'categoria_id' => 'required|exists:categorias,id',
             'descripcion' => 'required|string',
             'imagen' => 'nullable|string',

@@ -6,8 +6,8 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\GuardadoController;
 use App\Http\Controllers\PublicacionesController;
-use App\Http\Controllers\UsuarioController;
-
+// use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\Api\TokenController;
 
 
 /*
@@ -21,16 +21,13 @@ use App\Http\Controllers\UsuarioController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
 // Las rutas protegidas por autenticación
+/*
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('usuarios', UsuarioController::class);
     // ... otras rutas protegidas
 });
+*/
 
 // Rutas para CategoriaController
 Route::apiResource('categorias', CategoriaController::class);
@@ -48,5 +45,21 @@ Route::apiResource('posts', PublicacionesController::class);
 Route::post('post{post}', [PublicacionesController::class, 'update_workaround']);
 
 // Rutas para UsuarioController
-Route::post('register', [UsuarioController::class, 'register']);
-Route::post('login', [UsuarioController::class, 'login']);
+/*Route::post('register', [UsuarioController::class, 'register']);
+Route::post('login', [UsuarioController::class, 'login']);*/
+
+
+/**
+ * Token 
+ */
+Route::post('/register', [TokenController::class, 'register'])
+->middleware('guest');
+
+Route::post('/login', [TokenController::class, 'login'])
+->middleware('guest');
+
+Route::get('/user', [TokenController::class, 'user'])
+->middleware('auth:sanctum');
+
+Route::post('/logout', [TokenController::class, 'logout'])
+->middleware('auth:sanctum');

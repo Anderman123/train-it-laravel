@@ -15,7 +15,7 @@ class ComentarioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'usuario_id' => 'required|exists:usuarios,id',
+            'user_id' => 'required|exists:users,id',
             'publicacion_id' => 'required|exists:publicaciones,id',
             'contenido' => 'required|string',
         ]);

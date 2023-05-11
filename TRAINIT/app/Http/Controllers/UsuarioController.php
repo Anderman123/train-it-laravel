@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
+// use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
 
 class UsuarioController extends Controller
 {
@@ -74,11 +76,39 @@ class UsuarioController extends Controller
 
     public function register(Request $request)
     {
-        // Implementar la lógica de registro aquí.
+        $request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'telefono' => 'required',
+            'email' => 'required|email|unique:usuarios',
+            'password' => 'required|min:8',
+        ]);
+    
+        $usuarios = Usuario::create([
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'telefono' => $request->telefono,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+    
+        return response()->json(['message' => 'Usuario registrado exitosamente'], 201);
     }
 
     public function login(Request $request)
     {
-        // Implementar la lógica de inicio de sesión aquí.
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ]);
+    
+        if (Auth::attempt($request->only(['email', 'password']))) {
+            $usuarios = Auth::usuarios();
+            $token = $usuarios->createToken('Personal Access Token')->plainTextToken;
+    
+            return response()->json(['access_token' => $token], 200);
+        }
+    
+        return response()->json(['message' => 'Credenciales incorrectas'], 401);
     }
 }

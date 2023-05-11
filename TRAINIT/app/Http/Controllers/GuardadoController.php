@@ -15,7 +15,7 @@ class GuardadoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'usuario_id' => 'required|exists:usuarios,id',
+            'user_id' => 'required|exists:users,id',
             'publicacion_id' => 'required|exists:publicaciones,id',
         ]);
 
@@ -32,7 +32,7 @@ class GuardadoController extends Controller
     public function update(Request $request, Guardado $guardado)
     {
         $request->validate([
-            'usuario_id' => 'required|exists:usuarios,id',
+            'user_id' => 'required|exists:users,id',
             'publicacion_id' => 'required|exists:publicaciones,id',
         ]);
 
