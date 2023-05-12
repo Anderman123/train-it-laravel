@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('guardados', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('publicacion_id')->constrained('publicaciones'); // Cambiar 'publicacions' por 'publicaciones'
+            $table->foreignId('publicacion_id')->constrained('publicaciones')->onDelete('cascade'); // Cambiar 'publicacions' por 'publicaciones'
             $table->timestamps();
         });
     }
