@@ -36,15 +36,11 @@ class PublicacionesController extends Controller
     public function update(Request $request, Publicaciones $publicaciones)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'categoria_id' => 'required|exists:categorias,id',
             'descripcion' => 'required|string',
-            'imagen' => 'nullable|image',
-            'video' => 'nullable|mimes:mp4,avi,wmv',
         ]);
-
-        $publicaciones->update($request->all());
-
+    
+        $publicaciones->update($request->only('descripcion'));
+    
         return response()->json($publicaciones);
     }
 
@@ -53,10 +49,11 @@ class PublicacionesController extends Controller
         return $this->update($request, $publicaciones);
     }
 
-    public function destroy(Publicaciones $publicaciones)
+    public function destroy($id)
     {
-        $publicaciones->delete();
-
+        $publicacion = Publicaciones::findOrFail($id);
+        $publicacion->delete();
+    
         return response()->json(null, 204);
     }
 }
