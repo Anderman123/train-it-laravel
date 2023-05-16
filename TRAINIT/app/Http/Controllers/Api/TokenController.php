@@ -15,6 +15,13 @@ use App\Http\Resources\UserResource;
 
 class TokenController extends Controller
 {
+    public function index() 
+    {
+        $users = User::all();
+        return UserResource::collection($users);
+    }
+    
+
     public function register(Request $request) 
     {
         $validatedData = $request->validate([

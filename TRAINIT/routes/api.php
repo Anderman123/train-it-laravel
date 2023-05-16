@@ -63,3 +63,5 @@ Route::get('/user', [TokenController::class, 'user'])
 
 Route::post('/logout', [TokenController::class, 'logout'])
 ->middleware('auth:sanctum');
+
+Route::apiResource('usuario', TokenController::class);
