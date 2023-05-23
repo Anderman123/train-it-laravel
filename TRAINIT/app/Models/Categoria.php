@@ -17,4 +17,11 @@ class Categoria extends Model
     {
         return $this->hasMany(Publicacion::class);
     }
+
+    public static function agregarCategoriasSiNoExisten(array $nombresDeCategorias): void
+    {
+        foreach ($nombresDeCategorias as $nombre) {
+            self::firstOrCreate(['nombre' => $nombre]);
+        }
+    }
 }

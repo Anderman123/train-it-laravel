@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Categoria;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,4 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/meter_categorias', function () {
+    $categorias = ['biceps', 'gluteos', 'hombros', 'gemelos', 'cuadriceps', 'antebrazo'];
+    Categoria::agregarCategoriasSiNoExisten($categorias);
+    
+    return "Categorias agregadas correctamente.";
 });
