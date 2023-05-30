@@ -64,7 +64,10 @@ class TokenController extends Controller
             return response()->json([
                 "success"   => true,
                 "authToken" => $token,
-                "tokenType" => "Bearer"
+                "tokenType" => "Bearer",
+                "user" => [
+                    "id" => $user->id, // Aquí se agrega el ID del usuario a la respuesta
+                ],
             ], 200);
         } else {
             return response()->json([

@@ -18,9 +18,9 @@ class GuardadoController extends Controller
             'user_id' => 'required|exists:users,id',
             'publicacion_id' => 'required|exists:publicaciones,id',
         ]);
-
+    
         $guardado = Guardado::create($request->all());
-
+    
         return response()->json($guardado, 201);
     }
 
