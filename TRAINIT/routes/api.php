@@ -65,3 +65,5 @@ Route::post('/logout', [TokenController::class, 'logout'])
 ->middleware('auth:sanctum');
 
 Route::apiResource('usuario', TokenController::class);
+
+Route::middleware('auth:sanctum')->post('/users/{userId}/change-role', [TokenController::class, 'changeUserRole']);

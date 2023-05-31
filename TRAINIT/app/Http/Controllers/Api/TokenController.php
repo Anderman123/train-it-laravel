@@ -21,6 +21,27 @@ class TokenController extends Controller
         return UserResource::collection($users);
     }
     
+    public function changeUserRole(Request $request, $userId)
+    {
+        // Verificar que el usuario autenticado es un admin
+        if ($request->user()->role !== 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        // Buscar al usuario
+        $user = User::findOrFail($userId);
+
+        // Cambiar el role del usuario
+        $user->role = $request->input('role');
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'user' => new UserResource($user),
+            'role' => $user->role,  // Incluye el nuevo rol
+        ]);
+    }
+    
 
     public function register(Request $request) 
     {
@@ -34,6 +55,7 @@ class TokenController extends Controller
             "name"      => $validatedData["name"],
             "email"     => $validatedData["email"],
             "password"  => Hash::make($validatedData["password"]),
+            "role"      => "user",
         ]);
         
        // $user->assignRole(Role::AUTHOR);
@@ -67,6 +89,7 @@ class TokenController extends Controller
                 "tokenType" => "Bearer",
                 "user" => [
                     "id" => $user->id, // Aquí se agrega el ID del usuario a la respuesta
+                    "role" => $user->role, // Aquí se agrega el role del usuario a la respuesta
                 ],
             ], 200);
         } else {
