@@ -15,6 +15,13 @@ use App\Http\Resources\UserResource;
 
 class TokenController extends Controller
 {
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+
+        return new UserResource($user);
+    }
+
     public function index() 
     {
         $users = User::all();
@@ -132,4 +139,19 @@ class TokenController extends Controller
             "tokenType" => "Bearer"
         ], 200);
     }
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        
+        // Revoke all tokens
+        $user->tokens()->delete();
+    
+        $user->delete();
+    
+        return response()->json([
+            "success" => true,
+            "message" => "User deleted",
+        ], 200);
+    }
+
 }
