@@ -18,14 +18,27 @@ class PublicacionesController extends Controller
             'user_id' => 'required|exists:users,id',
             'categoria_id' => 'required|exists:categorias,id',
             'descripcion' => 'required|string',
-            'imagen' => 'image|max:2048', // Valida que el archivo cargado sea una imagen y su tamaño no supere los 2MB
-            'video' => 'mimes:mp4,mov,ogg|max:20000', // Valida que el archivo cargado sea un vídeo y su tamaño no supere los 20MB
+            'imagen' => 'nullable|image|max:2048', // Valida que el archivo cargado sea una imagen y su tamaño no supere los 2MB
+            'video' => 'nullable|url', // Valida que el archivo cargado sea un vídeo y su tamaño no supere los 20MB
         ]);
-
-        $publicaciones = Publicaciones::create($request->all());
-
+    
+        // Comenzar a preparar los datos para crear la publicación
+        $postData = $request->only(['user_id', 'categoria_id', 'descripcion', 'video']);
+    
+        if ($request->hasFile('imagen')) {
+            // Manejar la subida de la imagen
+            $imagen = $request->file('imagen');
+            $nombreImagen = time().'.'.$imagen->getClientOriginalExtension();
+            $destino = public_path('/imagenes');
+            $imagen->move($destino, $nombreImagen);
+            
+            // Añadir la URL de la imagen a los datos de la publicación
+            $postData['imagen'] = url('/imagenes/'.$nombreImagen);
+        }
+    
+        $publicaciones = Publicaciones::create($postData);
+    
         return response()->json($publicaciones, 201);
-        
     }
 
     public function show(Publicaciones $publicaciones)
